@@ -50,20 +50,20 @@ if($_SESSION['status_login'] != true){
 
 <!-- Akhir Navbar -->
 
+<!-- header -->
 <header>
     <div class="container">
-        <a href="dashboard.php"><img src="img/profil.png" alt="Logo" width="100"></a><!-- Ganti path/to/your/logo.png dengan path file gambar logo Anda -->
+        <h1><a href="dashboard.php">Liujungwoo</a></h1>
         <ul>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="informasi.php">Informasi</a></li>
             <li><a href="data-kategori.php">Data kategori</a></li>
             <li><a href="data-produk.php">Data produk</a></li>
             <li><a href="keluar.php">logout</a></li>
-            <li><a href="menu-users.php">LiuJungwoo</a></li><!-- Menambahkan link ke menu-users.php -->
         </ul>
     </div>
 </header>
-
+<!-- content -->
 <div class="section" style="background-color: #ddd5f3;">
     <div class="container">
         <h3>Dashboard</h3>

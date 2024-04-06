@@ -1,10 +1,5 @@
 <?php
-    include 'db.php'; // Sertakan file yang berisi kode koneksi database
-
-    // Periksa apakah koneksi berhasil
-    if (!$conn) {
-        die("Koneksi gagal: " . mysqli_connect_error());
-    }
+    include 'db.php';
 ?>
 
 <!DOCTYPE html>
@@ -44,9 +39,9 @@
 
     <!-- Jumbotron -->
     <section class="jumbotron text-center" style="margin-bottom: 60px; margin-top: 80px;"> <!-- Tambahkan style "margin-top: 80px;" di sini -->
-        <a href="index.php"><img src="img/profil.png" alt="Profile" width="450" class="rounded-circle img-thumbnail"/></a>
-    
-   
+        <a href="index.php"> <!-- Tambahkan tautan ke index.php -->
+            <img src="img/profil.png" alt="yosi karinda" width="450" class="rounded-circle img-thumbnail" />
+        </a>
         <h1 class="display-4">LiuJungwoo</h1>
         <p class="lead">check off your wish list</p>
     </section>
@@ -62,12 +57,11 @@
         </div>
     </div>
     <!-- end search -->
-
-    <!-- produk -->
+<!-- produk -->
     <div class="section">
         <div class="container">
             <h3>Produk</h3>
-            <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- Menggunakan grid system dari Bootstrap -->
+            <div class="row justify-content-center"> <!-- Menggunakan justify-content-center untuk memusatkan elemen -->
                 <?php
                     $where = ""; // Inisialisasi variabel $where
                     if(isset($_GET['search']) && $_GET['search'] != ''){ // Memeriksa apakah pencarian dilakukan
@@ -77,7 +71,7 @@
                     if(mysqli_num_rows($produk) > 0) {
                         while($p = mysqli_fetch_array($produk)) {
                 ?>
-                    <div class="col">
+                    <div class="col-md-4 mb-3 d-flex align-items-center"> <!-- Menambahkan kelas d-flex dan align-items-center -->
                         <div class="card">
                             <img src="produk/<?php echo $p['product_image'] ?>" class="card-img-top" alt="<?php echo $p['product_name'] ?>">
                             <div class="card-body">
@@ -99,14 +93,5 @@
         </div>
     </div>
 
-    <!-- footer -->
-    <footer>
-        <div class="container">
-            <small>Copyright &copy; 2024 - LliuJungwoo</small>
-        </div>
-    </footer>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

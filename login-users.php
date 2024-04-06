@@ -4,7 +4,7 @@ include 'db.php'; // Berkas koneksi database
 
 // Fungsi untuk mengarahkan pengguna ke halaman index.php jika mereka sudah login
 function redirectToIndex() {
-    header("location: index.php");
+    header("location: menu-users.php");
     exit();
 }
 

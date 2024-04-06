@@ -54,7 +54,7 @@ if ($data_admin) {
         </ul>
     </div>
 </header>
-<!-- content admin -->
+<!-- content -->
 <div class="section">
     <div class="container">
         <h3>Profil Admin</h3>
@@ -125,47 +125,6 @@ if ($data_admin) {
         </div>
     </div>
 </div>
-
-<!-- kontent user -->
-<!-- content -->
-<div class="section">
-    <div class="container">
-        <h3>Data Pengguna Terdaftar</h3>
-        <div class="box">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Nama Instagram</th>
-                        <th>Alamat</th>
-                        <th>No. Telepon</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $query_users = mysqli_query($conn, "SELECT * FROM tb_users");
-                    while ($data_user = mysqli_fetch_assoc($query_users)) {
-                        echo "<tr>";
-                        echo "<td>" . $data_user['username'] . "</td>";
-                        echo "<td>" . $data_user['email'] . "</td>";
-                        echo "<td>" . $data_user['uname_ig'] . "</td>";
-                        echo "<td>" . $data_user['alamat'] . "</td>";
-                        echo "<td>" . $data_user['no_telp'] . "</td>";
-                        echo "<td>
-                                <a href='edit-user.php?id=" . $data_user['id_users'] . "' class='btn btn-primary btn-lg'>Edit</a>
-                                <a href='hapus-user.php?id=" . $data_user['id_users'] . "' class='btn btn-danger btn-lg'>Hapus</a>
-                            </td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
 <!-- footer -->
 <footer>
     <div class="container">

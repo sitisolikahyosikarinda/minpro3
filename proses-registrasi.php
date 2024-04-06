@@ -1,4 +1,5 @@
 <?php
+include 'db.php';
 // Memeriksa apakah data dikirimkan melalui metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Memeriksa apakah semua field formulir telah diisi
@@ -14,13 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Melakukan validasi atau sanitasi data jika diperlukan
 
         // Menyimpan data ke database
-        include 'db.php'; // Menghubungkan ke file koneksi database
-        $query = "INSERT INTO users (username, email, password, uname_ig, alamat, no_telp) VALUES ('$username', '$email', '$password', '$uname_ig', '$alamat', '$no_telp')";
+         // Menghubungkan ke file koneksi database
+        $query = "INSERT INTO tb_users (username, email, password, uname_ig, alamat, no_telp) VALUES ('$username', '$email', '$password', '$uname_ig', '$alamat', '$no_telp')";
         $result = mysqli_query($conn, $query);
 
         if ($result) {
             // Jika penyimpanan berhasil, redirect ke halaman sukses atau halaman lain
-            header("Location: registrasi_sukses.php");
+            header("Location: produk.php");
             exit;
         } else {
             // Jika terjadi kesalahan saat penyimpanan, tampilkan pesan kesalahan

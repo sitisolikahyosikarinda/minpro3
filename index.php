@@ -1,139 +1,118 @@
+<?php
+session_start();
+include 'db.php'; // Berkas koneksi database
+
+// Fungsi untuk mengarahkan pengguna ke halaman login-users.php jika mereka sudah login
+function redirectToIndex() {
+    header("location: login-users.php");
+    exit();
+}
+
+// Cek apakah pengguna sudah login, jika ya, arahkan ke halaman login-users.php
+if (isset($_SESSION['username'])) {
+    redirectToIndex();
+}
+
+// Fungsi untuk menampilkan pesan error dengan gaya yang lebih menarik
+function showError($message) {
+    echo '<div class="alert alert-danger" role="alert">' . $message . '</div>';
+}
+
+// Fungsi untuk menampilkan pesan sukses dengan gaya yang lebih menarik
+function showSuccess($message) {
+    echo '<div class="alert alert-success" role="alert">' . $message . '</div>';
+}
+
+// Proses registrasi pengguna
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // Periksa apakah username atau email sudah digunakan
+    $check_user_query = mysqli_query($conn, "SELECT * FROM tb_users WHERE username='$username' OR email='$email'");
+    if (mysqli_num_rows($check_user_query) > 0) {
+        showError("Username atau email sudah digunakan.");
+    } else {
+        // Hash password sebelum disimpan
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Insert data pengguna ke database
+        $register_query = mysqli_query($conn, "INSERT INTO tb_users (username, email, password) VALUES ('$username', '$email', '$hashed_password')");
+        if ($register_query) {
+            showSuccess("Registrasi berhasil. Silakan login.");
+        } else {
+            showError("Gagal mendaftar. Silakan coba lagi.");
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <!-- custom css -->
-    <link rel="stylesheet" href="style.css" />
-    <title>Jasatitip</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0; /* Warna latar belakang */
+            padding-top: 20px;
+        }
+        .container {
+            background-color: #ffffff; /* Warna latar belakang kotak form */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+            max-width: 400px; /* Lebar maksimum kotak form */
+            margin: auto; /* Pusatkan kotak form */
+        }
+        .form-control {
+            font-size: 14px; /* Ukuran font input */
+        }
+        .btn-primary {
+            font-size: 14px; /* Ukuran font tombol */
+        }
+        .alert {
+            margin-top: 10px; /* Jarak antara pesan alert dengan elemen di atasnya */
+        }
+    </style>
 </head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Register</h2>
 
-<body id="home" style="margin-top: 60px;">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow p-3 
-      fixed-top" style="background-color: #aa9ced;">
-      <div class="container">
-        <a class="navbar-brand" href="login.php">Liujungwoo</a> <!-- Mengarahkan tautan ke login.php -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#home">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="produk.php">Produk</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- Akhir Navbar -->
-
-    <!-- Jumbotron -->
-    <section class="jumbotron text-center" style="margin-bottom: 60px; margin-top: 80px;">
-        <img src="img/profil.png" alt="yosi karinda" width="450" class="rounded-circle img-thumbnail" />
-        <h1 class="display-4">LiuJungwoo</h1>
-        <p class="lead">check off your wish list</p>
-        <h1 style="text-align: center;">Batch 1 Korea dibuka 7-20 April 2024 jangan sampai ketinggalan</h1>
-    </section>
-    <!-- Akhir jumbotron -->
-
-    <!-- BESTSELLER -->
-    <section id="skill">
-        <div class="container">
-            <div class="row text-center mb-3">
-                <div class="col">
-                    <h2>⁉️SALE⁉️</h2>
-                </div>
+        <!-- Form registrasi -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
             </div>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/product_item1_jaemin_top.jpeg" class="card-img-top" alt="skill1">
-                        <div class="card-body">
-                            <p class="card-text">⁉️[15 OFF]⁉️ CATS ARE MY IDOL CAP </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/product_item2_jaemin_shirti.jpeg" class="card-img-top" alt="skill2">
-                        <div class="card-body">
-                            <p class="card-text">⁉️[CAUPON SALE]⁉️ LOVE CRYING CAT LS </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <img src="img/product_item4_kiming_shirt.jpeg" class="card-img-top" alt="skill3">
-                        <div class="card-body">
-                            <p class="card-text">⁉️[30% OFF]⁉️ LOVE PUNK PIGMENT SWEATSHIRT </p>
-                        </div>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
-        </div>
-    </section>
-    <!-- end BESTSELLER-->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="register">Register</button>
+            <p class="mt-3">Sudah punya akun? <a href="login-users.php">Login disini</a>.</p>
+        </form>
 
-    <!-- Formulir Registrasi -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <h2 class="mb-4">⁉️Wajib isi untuk masuk pendataan LiuJungwoo⁉️</h2>
-                <p>Warning!! tidak mengisi = tidak didata = barang anda tidak dapat tervalidasi untuk di pesan</p>
-                <form id="registrationForm" action="proses_registrasi.php" method="post">
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="alamat" class="form-label">Alamat:</label>
-                        <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="no_telp" class="form-label">Nomor Telepon:</label>
-                        <input type="text" class="form-control" id="no_telp" name="no_telp" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="uname_ig" class="form-label">Username Instagram:</label>
-                        <input type="text" class="form-control" id="uname_ig" name="uname_ig" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Daftar</button>
-                </form>
-            </div>
-        </div>
+        <!-- Pesan kesalahan atau sukses -->
+        <?php if(isset($error_message)) { ?>
+            <div class="alert alert-danger" role="alert"><?php echo $error_message; ?></div>
+        <?php } ?>
+        <?php if(isset($success_message)) { ?>
+            <div class="alert alert-success" role="alert"><?php echo $success_message; ?></div>
+        <?php } ?>
     </div>
-    <!-- Akhir Formulir Registrasi -->
 
-    <script>
-        // Menangani pengiriman formulir registrasi
-        document.getElementById("registrationForm").addEventListener("submit", function(event) {
-            // Menghentikan pengiriman formulir
-            event.preventDefault();
-            
-            // Menampilkan pop-up "data disimpan"
-            alert("Data disimpan");
-
-            // Mengarahkan pengguna ke halaman produk.php
-            window.location.href = "produk.php";
-        });
-    </script>
-
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
