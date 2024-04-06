@@ -2,11 +2,12 @@
 // Memeriksa apakah data dikirimkan melalui metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Memeriksa apakah semua field formulir telah diisi
-    if (isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["alamat"]) && isset($_POST["no_telp"])) {
+    if (isset($_POST["username"]) && isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["uname_ig"]) && isset($_POST["alamat"]) && isset($_POST["no_telp"])) {
         // Mengambil data dari formulir
         $username = $_POST["username"];
         $email = $_POST["email"];
         $password = $_POST["password"];
+        $uname_ig = $_POST["uname_ig"];
         $alamat = $_POST["alamat"];
         $no_telp = $_POST["no_telp"];
 
@@ -14,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Menyimpan data ke database
         include 'db.php'; // Menghubungkan ke file koneksi database
-        $query = "INSERT INTO users (username, email, password, alamat, no_telp) VALUES ('$username', '$email', '$password', '$alamat', '$no_telp')";
+        $query = "INSERT INTO users (username, email, password, uname_ig, alamat, no_telp) VALUES ('$username', '$email', '$password', '$uname_ig', '$alamat', '$no_telp')";
         $result = mysqli_query($conn, $query);
 
         if ($result) {

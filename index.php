@@ -110,6 +110,10 @@
                         <label for="no_telp" class="form-label">Nomor Telepon:</label>
                         <input type="text" class="form-control" id="no_telp" name="no_telp" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="uname_ig" class="form-label">Username Instagram:</label>
+                        <input type="text" class="form-control" id="uname_ig" name="uname_ig" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Daftar</button>
                 </form>
             </div>
